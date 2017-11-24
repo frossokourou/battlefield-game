@@ -1,0 +1,16 @@
+
+ol li {
+  text-align: left;
+  padding-left: 0.2em;
+}
+.instructions {
+  float: center;
+  margin-bottom: 1.5em;
+  margin-right: -10px;
+  border: 1px solid #ad08af;
+  background-color: #FFF;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 27px;
+  display: block;
+}

@@ -1,0 +1,48 @@
+.square {
+  display: inline-block;
+  border: 1px solid #999;
+  background-color: #b7ecfb;
+  margin: 0 -2px -5px 0;
+  font-size: 1em;
+  height: 3em;
+  width: 9.3%;
+}
+.squareSmaller {
+  height: 2em;
+  width: 9%;
+}
+.squareHover {
+  outline: none;
+  background-color: #5c6093;
+  cursor: pointer;
+}
+.squareShip {
+  outline-color: invert;
+  background-color: #7e6f90;
+  /*cursor: pointer;*/
+}
+.squareHit {
+  outline-color: brown;
+  background-color: red;
+}
+.squareMissed {
+  outline-color: blue;
+  background-color: grey;
+}
+.rowNumber {
+  display: inline-block;
+  font-size: 15px;
+  width: 30px;
+  vertical-align: bottom;
+  padding-bottom: 12px;
+}
+.colNumber {
+  font-size: 15px;;
+  display: inline-block;
+  width: 9.3%;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.colNumberSmaller {
+    width: 9%;
+}

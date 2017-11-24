@@ -1,0 +1,16 @@
+.message {
+  margin-top: 1.5em;
+  color: blue;
+  font-weight: bold;
+  font-size: x-large;
+}
+.buttonStart {
+  background-color: #f5ff66;
+  border-color: #f1e4f7;
+  box-shadow: 2px;
+  border-radius: 3%;
+  color: blue;
+  font-size: inherit;
+  font-weight: bold;
+  margin: 0.5em 5em;
+}

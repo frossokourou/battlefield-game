@@ -1,0 +1,38 @@
+.ship {
+  display: inline-block;
+  border: 1.45px solid #999;
+  margin: 2px -1px;
+  font-size: 1em;
+  height: 3em;
+  width: 10%;
+}
+.colorShip {
+  background-color: #c1b1c9;
+  cursor: pointer;
+}
+.colorShipSelected {
+  background-color: #876f90;
+  border-color: #291b2c;
+}
+.colorShipPlaced {
+  background-color: #ebe1ef;
+  border-color: #b0b0b0;
+}
+.ships {
+  text-align: left;
+  padding-left: 5px;
+  margin-top: 15px;
+}
+.makeVertical {
+  text-align: center;
+  width: 35%;
+  float: right;
+  color: blue;
+}
+button {
+  margin-top: 0.5em;
+  padding: 0.5em;
+}
+p {
+  margin: 0;
+}
