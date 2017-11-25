@@ -1,23 +1,36 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 let MessageYourTurn = (props) => {
   let hitMessage = '';
+  let endMessage = '';
 
   if (props.roundNumber === 0) {
     hitMessage = ' Throw the first torpedo!';
+  } else if (props.roundNumber === 2) {
+    hitMessage = ' You are the winner!';
+    endMessage = (
+      <Link to='/setup'>
+        <button className='buttonStart'>Play again?</button>
+      </Link>
+    );
+  } else if (props.roundNumber === 3) {
+    hitMessage = ' Computer wins!';
+    endMessage = (
+      <Link to='/setup'>
+        <button className='buttonStart'>Play again?</button>
+      </Link>
+    );
   } else {
+    // if (props.roundNumber === 1)
     if (props.isYourTurn) {
       hitMessage = ' It\'s your turn to hit!';
     } else {
       if (props.didYouMiss) {
         hitMessage = 'You missed!';
       } else {
-        if (props.totalShipSquares === props.squaresHit) {
-          hitMessage = 'You are the winner!'
-        } else {
-          hitMessage = 'You hit a ship!';
-        }
+        hitMessage = 'You hit a ship!';
       }
     }
   }
@@ -26,6 +39,7 @@ let MessageYourTurn = (props) => {
     <div className='message'>
       {props.opponentTurn}
       {hitMessage}
+      {endMessage}
     </div>
   );
 };
@@ -35,10 +49,6 @@ const mapStateToProps = (state) => {
     isYourTurn: state.isYourTurn,
     didYouMiss: state.didYouMiss,
     opponentTurn: state.opponentTurn,
-    squaresHit: state.squaresHit,
-    totalShipSquares: state.totalShipSquares,
-    squareInTarget: state.squareInTarget,
-    matrixOpponent: state.matrixOpponent,
   };
 };
 MessageYourTurn = connect(mapStateToProps)(MessageYourTurn);

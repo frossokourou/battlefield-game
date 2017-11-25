@@ -27,7 +27,7 @@
 }
 .squareMissed {
   outline-color: blue;
-  background-color: grey;
+  background-color: #b7b3bd;
 }
 .rowNumber {
   display: inline-block;

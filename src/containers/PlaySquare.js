@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {changeSquareTarget, throwBomb, addToHitCounter, opponentAboutToPlay} from '../actions/actionCreators';
+import {changeSquareTarget, throwBomb, opponentAboutToPlay} from '../actions/actionCreators';
 import '../css/board.css';
 
 class PlaySquare extends React.Component {
@@ -27,7 +27,6 @@ class PlaySquare extends React.Component {
       } else {
         console.log('you hit a ship!');
         this.props.throwBomb('X', x, y);
-        this.props.addToHitCounter();
       }
       this.props.opponentAboutToPlay(this.props.matrix);
     }
@@ -66,9 +65,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     throwBomb: (string, x, y) => {
       dispatch(throwBomb(string, x, y))
-    },
-    addToHitCounter: () => {
-      dispatch(addToHitCounter())
     },
     opponentAboutToPlay: (matrix) => {
       dispatch(opponentAboutToPlay(matrix))

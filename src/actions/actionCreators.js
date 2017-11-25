@@ -1,5 +1,5 @@
 import {SELECT_SHIP, CHANGE_SHIP_ORIENTATION, CHANGE_SELECTED_SQUARE, PLACE_SHIP_ON_BOARD, RELOCATE_SHIP,
-  CHANGE_PHASE, OPPONENT_SETUP, CHANGE_SQUARE_TARGET, THROW_BOMB, ADD_TO_COUNTER, OPPONENT_PLAY} from './actionTypes';
+  CHANGE_PHASE, OPPONENT_SETUP, CHANGE_SQUARE_TARGET, THROW_BOMB, OPPONENT_PLAY} from './actionTypes';
 import opponentMove from '../helpFunctions/opponentMove';
 
 const selectShip = (id)=> {
@@ -57,11 +57,6 @@ const throwBomb = (string, x, y) => {
     y
   };
 };
-const addToHitCounter = () => {
-  return {
-    type: ADD_TO_COUNTER
-  };
-};
 const opponentAboutToPlay = (matrix) => {
   return (dispatch) => {
 
@@ -81,4 +76,4 @@ const opponentAboutToPlay = (matrix) => {
 //   };
 // };
 export {selectShip, changeShipOrientation, changeSelectedSquare, placeShipOnBoard, relocateShip,
-  changePhase, opponentSetup, changeSquareTarget, throwBomb, addToHitCounter, opponentAboutToPlay};
+  changePhase, opponentSetup, changeSquareTarget, throwBomb, opponentAboutToPlay};

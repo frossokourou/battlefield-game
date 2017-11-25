@@ -1,18 +1,18 @@
 import {SELECT_SHIP, CHANGE_SHIP_ORIENTATION, CHANGE_SELECTED_SQUARE, PLACE_SHIP_ON_BOARD, RELOCATE_SHIP,
-  CHANGE_PHASE, OPPONENT_SETUP, CHANGE_SQUARE_TARGET, THROW_BOMB, ADD_TO_COUNTER, OPPONENT_PLAY} from '../actions/actionTypes';
+  CHANGE_PHASE, OPPONENT_SETUP, CHANGE_SQUARE_TARGET, THROW_BOMB, OPPONENT_PLAY} from '../actions/actionTypes';
 import BOARD_DIMENSION from '../actions/data';
 import setupMatrixOpponent from '../helpFunctions/setupMatrixOpponent';
 import checkShips from '../helpFunctions/checkShips';
 
 const initialState = { ships:
   [
-    {id: 0, isHorizontal: true, size: 2, isPlaced: true, xFirst: null, yFirst: null},
-    {id: 1, isHorizontal: true, size: 1, isPlaced: true, xFirst: null, yFirst: null},
-    {id: 2, isHorizontal: true, size: 4, isPlaced: true, xFirst: null, yFirst: null},
-    {id: 3, isHorizontal: true, size: 3, isPlaced: true, xFirst: null, yFirst: null},
-    {id: 4, isHorizontal: true, size: 1, isPlaced: true, xFirst: null, yFirst: null},
-    {id: 5, isHorizontal: true, size: 2, isPlaced: true, xFirst: null, yFirst: null},
-    {id: 6, isHorizontal: true, size: 5, isPlaced: true, xFirst: null, yFirst: null}
+    {id: 0, isHorizontal: true, size: 2, isPlaced: false, xFirst: null, yFirst: null},
+    {id: 1, isHorizontal: true, size: 1, isPlaced: false, xFirst: null, yFirst: null},
+    {id: 2, isHorizontal: true, size: 4, isPlaced: false, xFirst: null, yFirst: null},
+    {id: 3, isHorizontal: true, size: 3, isPlaced: false, xFirst: null, yFirst: null},
+    {id: 4, isHorizontal: true, size: 1, isPlaced: false, xFirst: null, yFirst: null},
+    {id: 5, isHorizontal: true, size: 2, isPlaced: false, xFirst: null, yFirst: null},
+    {id: 6, isHorizontal: true, size: 5, isPlaced: false, xFirst: null, yFirst: null}
   ],
   selectedShipIndex: -1,
   selectedSquare: {x: 0, y: 0},
@@ -28,6 +28,10 @@ const initialState = { ships:
     {id: 6, isHorizontal: true, size: 5, isPlaced: false, xFirst: null, yFirst: null}
   ],
   matrixOpponent: new Array(BOARD_DIMENSION).fill(new Array(BOARD_DIMENSION).fill(null)),
+  // before first hit roundNumber: 0,
+  // game is played roundNumber: 1,
+  // you win: roundNumber: 2,
+  // Computer wins: roundNumber: 3
   roundNumber: 0,
   opponentTurn: '',
   isYourTurn: true,
@@ -186,9 +190,18 @@ const battleField = (state=initialState, action={}) => {
         roundNumber: state.roundNumber + 1
       }
     case THROW_BOMB:
+    // you play
       let missed = true;
+      let addHit = 0;
+      // when roundNumber is 1, the game is played
+      let winGame = 1;
       if (action.string === 'X') {
         missed = false;
+        addHit = 1;
+        if (state.totalShipSquares - 1 === state.squaresHit) {
+          // when roundNumber is 2, you are the winner
+          winGame = 2;
+        }
       }
       return {
         ...state,
@@ -196,17 +209,20 @@ const battleField = (state=initialState, action={}) => {
         squareInTarget: {x: action.x, y: action.y},
         // when you play, the opponent's message is erased
         opponentTurn: initialState.opponentTurn,
-        // if you win, winner messsage is displayed
         isYourTurn: false,
         didYouMiss: missed,
-        roundNumber: state.roundNumber + 1
-      }
-    case ADD_TO_COUNTER:
-      return {
-        ...state,
-        squaresHit: state.squaresHit + 1
+        roundNumber: winGame,
+        squaresHit: state.squaresHit + addHit
       }
     case OPPONENT_PLAY:
+      let addOne = 0;
+      let winOne = 1;
+      if (action.string === 'X') {
+        addOne = 1;
+        if (state.totalShipSquares - 1 === state.squaresHitOpponent) {
+          winOne = 3;
+        }
+      }
       if (state.isYourTurn) {
         return state;
       } else {
@@ -214,7 +230,10 @@ const battleField = (state=initialState, action={}) => {
           ...state,
           matrix: bombMatrix(state.matrix, action.string, action.x, action.y),
           opponentTurn: action.message,
-          isYourTurn: true
+          isYourTurn: true,
+          squaresHitOpponent: state.squaresHitOpponent + addOne,
+          // when roundNumber is 3, computer wins
+          roundNumber: winOne
         }
       }
     default:
