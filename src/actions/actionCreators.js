@@ -1,5 +1,5 @@
 import {SELECT_SHIP, CHANGE_SHIP_ORIENTATION, CHANGE_SELECTED_SQUARE, PLACE_SHIP_ON_BOARD, RELOCATE_SHIP,
-  CHANGE_PHASE, OPPONENT_SETUP, CHANGE_SQUARE_TARGET, THROW_BOMB, OPPONENT_PLAY} from './actionTypes';
+  OPPONENT_SETUP, CHANGE_SQUARE_TARGET, THROW_BOMB, OPPONENT_PLAY, PLAY_AGAIN} from './actionTypes';
 import opponentMove from '../helpFunctions/opponentMove';
 
 const selectShip = (id)=> {
@@ -29,12 +29,6 @@ const relocateShip = (id)=> {
   return {
     type: RELOCATE_SHIP,
     id
-  };
-};
-const changePhase = (phaseNumber)=> {
-  return {
-    type: CHANGE_PHASE,
-    phaseNumber
   };
 };
 const opponentSetup = () => {
@@ -69,11 +63,10 @@ const opponentAboutToPlay = (matrix) => {
 
   }
 }
-// const opponentPlay = (string, x, y, message) => {
-//   return {
-//     type: OPPONENT_PLAY,
-//     string, x, y, message
-//   };
-// };
+const playAgain = () => {
+  return {
+    type: PLAY_AGAIN
+  };
+};
 export {selectShip, changeShipOrientation, changeSelectedSquare, placeShipOnBoard, relocateShip,
-  changePhase, opponentSetup, changeSquareTarget, throwBomb, opponentAboutToPlay};
+   opponentSetup, changeSquareTarget, throwBomb, opponentAboutToPlay, playAgain};

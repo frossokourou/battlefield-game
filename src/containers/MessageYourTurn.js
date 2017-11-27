@@ -1,29 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import { withRouter } from 'react-router';
+import {playAgain} from '../actions/actionCreators';
 
 let MessageYourTurn = (props) => {
   let hitMessage = '';
   let endMessage = '';
 
-  if (props.roundNumber === 0) {
+  const playOneMore = () => {
+    props.playAgain();
+    props.history.push({
+      pathname: '/setup'
+    });
+  }
+
+  if (props.gamePhase === 0) {
     hitMessage = ' Throw the first torpedo!';
-  } else if (props.roundNumber === 2) {
+  } else if (props.gamePhase === 2) {
     hitMessage = ' You are the winner!';
     endMessage = (
-      <Link to='/setup'>
-        <button className='buttonStart'>Play again?</button>
-      </Link>
+      <button className='buttonStart' onClick={playOneMore}>Play again?</button>
     );
-  } else if (props.roundNumber === 3) {
+  } else if (props.gamePhase === 3) {
     hitMessage = ' Computer wins!';
     endMessage = (
-      <Link to='/setup'>
-        <button className='buttonStart'>Play again?</button>
-      </Link>
+      <button className='buttonStart' onClick={playOneMore}>Play again?</button>
     );
   } else {
-    // if (props.roundNumber === 1)
+    // if (props.gamePhase === 1)
     if (props.isYourTurn) {
       hitMessage = ' It\'s your turn to hit!';
     } else {
@@ -45,11 +49,18 @@ let MessageYourTurn = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    roundNumber: state.roundNumber,
+    gamePhase: state.gamePhase,
     isYourTurn: state.isYourTurn,
     didYouMiss: state.didYouMiss,
     opponentTurn: state.opponentTurn,
   };
 };
-MessageYourTurn = connect(mapStateToProps)(MessageYourTurn);
-export default MessageYourTurn;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    playAgain: () => {
+      dispatch(playAgain())
+    }
+  };
+};
+MessageYourTurn = connect(mapStateToProps, mapDispatchToProps)(MessageYourTurn);
+export default withRouter(MessageYourTurn);

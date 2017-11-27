@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 import GameTitle from '../components/GameTitle';
 import ChatRoom from '../components/ChatRoom';
 import GameBoard from '../components/GameBoard';
@@ -10,12 +9,12 @@ import MessageYourTurn from './MessageYourTurn';
 import checkShips from '../helpFunctions/checkShips';
 
 let PlayGame = (props) => {
-
+  let test = checkShips(props.ships);
 // takes you to setup if not all ships are placed - Check again
-  if (!checkShips(props.ships)) {
-    return (
-      <Redirect to='/setup' />
-    );
+  if (!test) {
+    props.history.replace({
+      pathname: '/setup'
+    });
   }
   return (
     <div className='App'>

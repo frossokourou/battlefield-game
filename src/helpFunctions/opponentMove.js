@@ -7,8 +7,8 @@ const opponentMove = (matrix, callback) => {
   let x = -1;
   let y = -1;
   // wait 2 to 4 seconds and choose the target square
-  let timeWait = Math.random() * (3000 - 1800) + 1800;
-  // let handle = 
+  let timeWait = Math.random() * (30 - 18) + 18;
+  // let handle =
   setTimeout(function() {
 
     for (let i = 0; i <= 100; i++) {

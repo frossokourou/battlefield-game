@@ -1,27 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {changePhase, opponentSetup} from '../actions/actionCreators';
+import {opponentSetup} from '../actions/actionCreators';
 import checkShips from '../helpFunctions/checkShips';
 import '../css/messages.css';
 
 let MessageToPlayer = (props)=> {
 
   const startGame = () => {
-    props.changePhase(3);
     props.opponentSetup();
   }
 
   let messageToPlayer;
-  if (props.gamePhase === 1) {
+  if (props.gamePhase === -1) {
     messageToPlayer = 'Place your ships to start the game!';
-  } else if (props.gamePhase === 2) {
-    messageToPlayer = 'All ships are placed!';
   }
 
   let btnStart = null;
   // Check if all ships are placed
   if (checkShips(props.ships)) {
+    messageToPlayer = 'All ships are placed!';
     btnStart = (
       <Link to='/play_game'>
         <button className='buttonStart' onClick={startGame}>Start the game</button>
@@ -43,9 +41,6 @@ const mapStateToProps = (state)=> {
 };
 const mapDispatchToProps = (dispatch)=> {
   return {
-    changePhase: (string)=> {
-      dispatch(changePhase(string))
-    },
     opponentSetup: () => {
       dispatch(opponentSetup())
     }

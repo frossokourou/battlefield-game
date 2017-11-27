@@ -11,24 +11,26 @@ class PlaySquare extends React.Component {
 
   throwTorpedo = (e) => {
     if (this.props.isYourTurn) {
-      // array distructuring
-      let [x, y] = e.target.id.split('-');
-      x = parseInt(x, 10);
-      y = parseInt(y, 10);
-      console.log('x, ', x, ' y ', y);
+      if (this.props.gamePhase === 0 || this.props.gamePhase === 1) {
+        // array distructuring
+        let [x, y] = e.target.id.split('-');
+        x = parseInt(x, 10);
+        y = parseInt(y, 10);
+        console.log('x, ', x, ' y ', y);
 
-      // if you have already hit this square, choose another one
-      if (this.props.matrixOpponent[y][x] === 'X' || this.props.matrixOpponent[y][x] === 'o') {
-        console.log('already hit there');
-        this.props.changeSquareTarget(x, y);
-      } else if (this.props.matrixOpponent[y][x] === null) {
-        console.log('you missed!');
-        this.props.throwBomb('o', x, y);
-      } else {
-        console.log('you hit a ship!');
-        this.props.throwBomb('X', x, y);
+        // if you have already hit this square, choose another one
+        if (this.props.matrixOpponent[y][x] === 'X' || this.props.matrixOpponent[y][x] === 'o') {
+          console.log('already hit there');
+          this.props.changeSquareTarget(x, y);
+        } else if (this.props.matrixOpponent[y][x] === null) {
+          console.log('you missed!');
+          this.props.throwBomb('o', x, y);
+        } else {
+          console.log('you hit a ship!');
+          this.props.throwBomb('X', x, y);
+        }
+          this.props.opponentAboutToPlay(this.props.matrix);
       }
-      this.props.opponentAboutToPlay(this.props.matrix);
     }
   };
   render() {
@@ -55,7 +57,8 @@ const mapStateToProps = (state) => {
   return {
     matrixOpponent: state.matrixOpponent,
     matrix: state.matrix,
-    isYourTurn: state.isYourTurn
+    isYourTurn: state.isYourTurn,
+    gamePhase: state.gamePhase
   };
 };
 const mapDispatchToProps = (dispatch) => {

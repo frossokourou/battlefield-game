@@ -1,16 +1,14 @@
 // checks if all ships are placed
 
 const checkShips = (ships) => {
-  let sum = 0;
+  console.log('paparia');
+  let allShips = true;
   for (let i = 0; i < ships.length; i++) {
-    if (ships[i].isPlaced) {
-      sum++;
+    if (!ships[i].isPlaced) {
+      allShips = false;
+      break;
     }
   }
-  if (sum === ships.length) {
-    return true;
-  } else {
-    return false;
-  }
+  return allShips;
 };
 export default checkShips;
