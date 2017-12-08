@@ -51,13 +51,15 @@ const throwBomb = (string, x, y) => {
     y
   };
 };
-const opponentAboutToPlay = (matrix) => {
+// matrix, previousHit, hittingMoves come from stata (from PlaySquare)
+const opponentAboutToPlay = (matrix, previousHit, hittingMoves) => {
   return (dispatch) => {
-
-    opponentMove(matrix, ({string, x, y, message}) => {
+// three arguments and a callback
+    opponentMove(matrix, previousHit, hittingMoves, ({string, x, y, message, positionArray, sinkShip, shipOrientation, newStage}) => {
       dispatch({
         type: OPPONENT_PLAY,
-        string, x, y, message
+        // callback arguments go to reducer changes
+        string, x, y, message, positionArray, sinkShip, shipOrientation, newStage
       })
     })
 

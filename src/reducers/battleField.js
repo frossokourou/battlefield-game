@@ -34,6 +34,13 @@ export const initialState = { ships:
   // Computer wins: gamePhase: 3
   gamePhase: -1,
   opponentTurn: '',
+  previousHit: {isItX: '', prevX: -1, prevY: -1},
+  hittingMoves: {
+    stage: 0,
+    positionArray: [],
+    sinkShip: [],
+    shipOrientation: -1
+  },
   isYourTurn: true,
   didYouMiss: true,
   totalShipSquares: 0,
@@ -224,7 +231,15 @@ const battleField = (state=initialState, action={}) => {
           isYourTurn: true,
           squaresHitOpponent: state.squaresHitOpponent + addOne,
           // when gamePhase is 3, computer wins
-          gamePhase: winOne
+          gamePhase: winOne,
+          previousHit: {isItX: action.string, prevX: action.x, prevY: action.y},
+          hittingMoves: {
+            ...state.hittingMoves,
+            positionArray: action.positionArray,
+            sinkShip: action.sinkShip,
+            shipOrientation: action.shipOrientation,
+            stage: action.newStage
+          }
         }
       }
     case PLAY_AGAIN:

@@ -29,7 +29,7 @@ class PlaySquare extends React.Component {
           console.log('you hit a ship!');
           this.props.throwBomb('X', x, y);
         }
-          this.props.opponentAboutToPlay(this.props.matrix);
+          this.props.opponentAboutToPlay(this.props.matrix, this.props.previousHit, this.props.hittingMoves);
       }
     }
   };
@@ -58,7 +58,9 @@ const mapStateToProps = (state) => {
     matrixOpponent: state.matrixOpponent,
     matrix: state.matrix,
     isYourTurn: state.isYourTurn,
-    gamePhase: state.gamePhase
+    gamePhase: state.gamePhase,
+    previousHit: state.previousHit,
+    hittingMoves: state.hittingMoves
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -69,8 +71,8 @@ const mapDispatchToProps = (dispatch) => {
     throwBomb: (string, x, y) => {
       dispatch(throwBomb(string, x, y))
     },
-    opponentAboutToPlay: (matrix) => {
-      dispatch(opponentAboutToPlay(matrix))
+    opponentAboutToPlay: (matrix, previousHit, hittingMoves) => {
+      dispatch(opponentAboutToPlay(matrix, previousHit, hittingMoves))
     }
   };
 };
