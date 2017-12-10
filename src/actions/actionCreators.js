@@ -51,7 +51,7 @@ const throwBomb = (string, x, y) => {
     y
   };
 };
-// matrix, previousHit, hittingMoves come from stata (from PlaySquare)
+// matrix, previousHit, hittingMoves come from state (from PlaySquare)
 const opponentAboutToPlay = (matrix, previousHit, hittingMoves) => {
   return (dispatch) => {
 // three arguments and a callback
