@@ -8,8 +8,7 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
   let y = previousHit.prevY;
   let {stage, positionArray, sinkShip, shipOrientation} = hittingMoves;
   let newStage = stage;
-  let l = sinkShip.length;
-  let move;
+  let move, checkNewMove;
 
   const makeNewMove = (x, y) => {
       if (matrix[y][x] !== null) {
@@ -49,17 +48,32 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
       positionArray.splice(0, 1);
     }
     return positionArray;
-  }
+  };
+  const initializeHit = () => {
+    newStage = 0;
+    // choose next hit randomly
+    move = randomHit();
+    x = move.x;
+    y = move.y;
+    // make new move
+    checkNewMove = makeNewMove(x, y);
+    if (checkNewMove.string === 'X') {
+      // initialize hit
+      sinkShip = [];
+      newStage = 1;
+      positionArray = createPositionArray(x, y);
+    }
+  };
 
   // wait 2 to 4 seconds and choose the target square
   let timeWait = Math.random() * (30 - 18) + 18;
   // let handle =
   setTimeout(function() {
-    let checkNewMove;
+
     switch (stage) {
       case 1:
         // have hit first square of a ship -> find ship orientation
-        for (let i = l; i < positionArray.length; i++) {
+        for (let i = sinkShip.length; i < positionArray.length; i++) {
           x = positionArray[i].x;
           y = positionArray[i].y;
           sinkShip.push(positionArray[i]);
@@ -74,98 +88,123 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
             break;
          }
         }
-        if (l === positionArray.length) {
-          newStage = 0;
-          // choose next hit randomly -> same as default case
-          move = randomHit();
-          x = move.x;
-          y = move.y;
-          checkNewMove = makeNewMove(x, y);
-          if (checkNewMove.string === 'X') {
-            sinkShip = [];
-            newStage = 1;
-            positionArray = createPositionArray(x, y);
-          }
+        if (sinkShip.length === positionArray.length) {
+          initializeHit();
         }
         break;
       case 2:
       // found ship orientation -> moving one side
         if (shipOrientation === 1) {
           /* hit square above */
-          y = y - 1;
-
-          if (matrix[y][x] === 'X' || matrix[y][x] === 'o' || y === 0) {
-            // if the square has already been hit
-            newStage = 0;
+          if (y === 0) {
+            initializeHit();
           } else {
-            checkNewMove = makeNewMove(x, y);
-            if (checkNewMove.string === 'o') {
-              newStage = 0;
+            y = y - 1;
+            if (matrix[y][x] === 'X' || matrix[y][x] === 'o') {
+              // if the square has already been hit
+              initializeHit();
+            } else {
+              checkNewMove = makeNewMove(x, y);
+              if (checkNewMove.string === 'o') {
+                newStage = 0;
+              }
             }
           }
 
         } else if (shipOrientation === 3) {
           /* hit square on the left */
-          x = x - 1;
-
-          if (matrix[y][x] === 'X' || matrix[y][x] === 'o' || x === 0) {
-            newStage = 0;
+          if (x === 0) {
+            initializeHit();
           } else {
-            checkNewMove = makeNewMove(x, y);
-            if (checkNewMove.string === 'o') {
-              newStage = 0;
+            x = x - 1;
+            if (matrix[y][x] === 'X' || matrix[y][x] === 'o') {
+              initializeHit();
+            } else {
+              checkNewMove = makeNewMove(x, y);
+              if (checkNewMove.string === 'o') {
+                newStage = 0;
+              }
             }
           }
 
         } else if (shipOrientation === 0) {
           /* hit square below */
-          y = y + 1;
-
-          if (matrix[y][x] === 'X' || matrix[y][x] === 'o' || y > BOARD_DIMENSION - 1) {
-            // then hit on the opposite side
+          const hitOpposite = () => {
+            let flags = false;
             let k = y;
             for (let j = 0; j < k; j++) {
               y = y - 1;
               if (matrix[y][x] !== 'X' && matrix[y][x] !== 'o') {
+                flags = true;
                 break;
               }
             }
-            checkNewMove = makeNewMove(x, y);
-            if (checkNewMove.string === 'o') {
-              newStage = 0;
+            if (flags) {
+              checkNewMove = makeNewMove(x, y);
+              if (checkNewMove.string === 'o') {
+                // next time play randomly
+                newStage = 0;
+              } else {
+                newStage = 3;
+              }
             } else {
-              shipOrientation = 1;
+              initializeHit();
             }
+          };
+
+          if (y === BOARD_DIMENSION - 1) {
+            hitOpposite();
           } else {
-            checkNewMove = makeNewMove(x, y);
-            if (checkNewMove.string === 'o') {
-              newStage = 3;
+            y = y + 1;
+            if (matrix[y][x] === 'X' || matrix[y][x] === 'o') {
+              // then hit on the opposite side
+              hitOpposite();
+            } else {
+              checkNewMove = makeNewMove(x, y);
+              if (checkNewMove.string === 'o') {
+                newStage = 3;
+              }
             }
           }
 
         } else if (shipOrientation === 2) {
           /* hit square on the right */
-          x = x + 1;
-
-          if (matrix[y][x] === 'X' || matrix[y][x] === 'o' || x > BOARD_DIMENSION - 1) {
-            // then hit on the opposite side
+          const oppositeHit = () => {
+            let flags = false;
             let k = x;
             for (let j = 0; j < k; j++) {
               x = x - 1;
               if (matrix[y][x] !== 'X' && matrix[y][x] !== 'o') {
+                flags = true;
                 break;
               }
             }
-            checkNewMove = makeNewMove(x, y);
-            if (checkNewMove.string === 'o') {
-              newStage = 0;
+            if (flags) {
+              checkNewMove = makeNewMove(x, y);
+              if (checkNewMove.string === 'o') {
+                newStage = 0;
+              } else {
+                newStage = 3;
+              }
             } else {
-              shipOrientation = 3;
+              initializeHit();
             }
+          };
+
+
+          if (x === BOARD_DIMENSION - 1) {
+            oppositeHit();
           } else {
-            checkNewMove = makeNewMove(x, y);
-            if (checkNewMove.string === 'o') {
-              newStage = 3;
+            x = x + 1;
+            if (matrix[y][x] === 'X' || matrix[y][x] === 'o') {
+              // then hit on the opposite side
+              oppositeHit();
+
+            } else {
+              checkNewMove = makeNewMove(x, y);
+              if (checkNewMove.string === 'o') {
+                newStage = 3;
+              }
             }
           }
         }
@@ -173,50 +212,55 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
       case 3:
         // moving to the opposite side
         if (shipOrientation === 0) {
-          for (let j = 0; j < BOARD_DIMENSION; j++) {
+          let k = y;
+          for (let j = 0; j < k; j++) {
             y = y - 1;
             if (matrix[y][x] !== 'X' && matrix[y][x] !== 'o') {
+              k = -1;
               break;
             }
           }
-          checkNewMove = makeNewMove(x, y);
-          if (checkNewMove.string === 'o') {
-            newStage = 0;
+          if (k === -1) {
+            checkNewMove = makeNewMove(x, y);
+            if (checkNewMove.string === 'o') {
+              newStage = 0;
+            }
+          } else {
+            initializeHit();
           }
+
         } else if (shipOrientation === 2) {
-          for (let k = 0; k < BOARD_DIMENSION; k++) {
+          let k = x;
+          for (let j = 0; j < k; j++) {
             x = x - 1;
             if (matrix[y][x] !== 'X' && matrix[y][x] !== 'o') {
+              k = -1;
               break;
             }
           }
-          checkNewMove = makeNewMove(x, y);
-          if (checkNewMove.string === 'o') {
-            newStage = 0;
+          if (k === -1) {
+            checkNewMove = makeNewMove(x, y);
+            if (checkNewMove.string === 'o') {
+              newStage = 0;
+            }
+          } else {
+            initializeHit();
           }
+
         }
         break;
       default:
         // choose next hit randomly
-        move = randomHit();
-        x = move.x;
-        y = move.y;
-        // when x and y are decided, make the new move
-        checkNewMove = makeNewMove(x, y);
-        if (checkNewMove.string === 'X') {
-          sinkShip = [];
-          newStage = 1;
-          positionArray = createPositionArray(x, y);
-        }
+        initializeHit();
     }
 
-    // TODO: check the case of single square ship (done?)
+    // TODO: check the case of single square ship (done) -> TODO
 
-    // TODO: check if the new square exists!
+    // TODO: check if the new square exists! -> case 3 (done)
 
-    // TODO: check if the chosen square has already been hit (done?)
+    // TODO: check if the chosen square has already been hit (done)
 
-    // TODO: check if the square hit is placed on the border (e.g. x: 0, y: 3) (done?)
+    // TODO: check if the square hit is placed on the border (e.g. x: 0, y: 3) (done)
 
     return callback({string, x, y, message, positionArray, sinkShip, shipOrientation, newStage});
   }, timeWait);
