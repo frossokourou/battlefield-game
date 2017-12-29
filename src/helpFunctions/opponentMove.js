@@ -73,6 +73,7 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
     switch (stage) {
       case 1:
         // have hit first square of a ship -> find ship orientation
+        let flag = false;
         for (let i = sinkShip.length; i < positionArray.length; i++) {
           x = positionArray[i].x;
           y = positionArray[i].y;
@@ -85,10 +86,11 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
               shipOrientation = positionArray[i].id;
               newStage = 2;
             }
+            flag = true;
             break;
          }
         }
-        if (sinkShip.length === positionArray.length) {
+        if (!flag) {
           initializeHit();
         }
         break;
@@ -145,7 +147,8 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
                 // next time play randomly
                 newStage = 0;
               } else {
-                newStage = 3;
+                // next time hit above
+                shipOrientation = 1;
               }
             } else {
               initializeHit();
@@ -184,7 +187,8 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
               if (checkNewMove.string === 'o') {
                 newStage = 0;
               } else {
-                newStage = 3;
+                // next time hit left
+                shipOrientation = 3;
               }
             } else {
               initializeHit();
