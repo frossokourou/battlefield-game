@@ -19,9 +19,9 @@ const App = () => (
         <Board />
         <MessageToPlayer />
       </div>
-      <div className='right-side'>
+      {/* <div className='right-side'>
         <ChatRoom />
-      </div>
+      </div> */}
   </div>
 );
 export default App;

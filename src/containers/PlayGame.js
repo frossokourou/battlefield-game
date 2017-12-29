@@ -27,9 +27,9 @@ let PlayGame = (props) => {
           <GameBoard />
           <MessageYourTurn />
         </div>
-        <div className='right-side'>
+        {/* <div className='right-side'>
           <ChatRoom />
-        </div>
+        </div> */}
     </div>
   );
 };
