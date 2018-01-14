@@ -1,4 +1,9 @@
 
+@media screen and (max-width: 600px) {
+  .instructions-size {
+    font-size: 2.5vw;
+  }
+}
 ol li {
   text-align: left;
   padding-left: 0.2em;
@@ -11,6 +16,6 @@ ol li {
   background-color: #FFF;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  padding-left: 27px;
+  padding-left: 25px;
   display: block;
 }

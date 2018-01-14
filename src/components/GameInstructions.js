@@ -4,7 +4,7 @@ import '../css/gameInstructions.css';
 const GameInstructions = ()=> (
   <div>
     <h3>Instructions</h3>
-    <ol className='instructions'>
+    <ol className='instructions instructions-size'>
       <li>Click on a ship to select it.</li>
       <li>You can change the selected ship's orientation.</li>
       <li>Click on the board to choose the ship's position.</li>

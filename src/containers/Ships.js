@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 // creates the list of ships and the toggle button
 let Ships = (props)=> {
-  return <div>
+  return <div className='toggleButton'>
     <h3 className='caption'>These are your ships</h3>
     <ToggleShip />
     <div className='ships'>

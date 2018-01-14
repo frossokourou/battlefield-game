@@ -66,7 +66,7 @@ const opponentMove = (matrix, previousHit, hittingMoves, callback) => {
   };
 
   // wait 2 to 4 seconds and choose the target square
-  let timeWait = Math.random() * (30 - 18) + 18;
+  let timeWait = Math.random() * (1500 - 1000) + 1000;
   // let handle =
   setTimeout(function() {
 

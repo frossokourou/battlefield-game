@@ -22,7 +22,7 @@ const GameBoard = () => {
         {
           arrCols.map((letter, index) => (
             // the head letters
-            <div className='colNumber' key={index}>{letter}</div>
+            <div className='square colNumber' key={index}>{letter}</div>
           ))
         }
           {

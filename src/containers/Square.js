@@ -97,7 +97,6 @@ let Square = (props)=> {
       onMouseOver={hoverSquare}
       onClick={clickOnBoard}
       className={styleForShip}>
-      <span className='textInSquare'></span>
     </div>
   );
 };

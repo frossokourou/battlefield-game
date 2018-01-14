@@ -14,12 +14,24 @@
 .right-side {
   display: inline-block;
   float: right;
-  width: 28%;
+  width: 66%;
   margin-left: 2px;
 }
 h3 {
   color: #99129b;
   margin-bottom: 0.6em;
+  display: inline-block;
+}
+@media screen and (max-width: 600px) {
+  .right-side {
+    width: 46%;
+  }
+  h3 {
+    font-size: 4vw;
+  }
+  h2 {
+    font-size: 5vw;
+  }
 }
 li {
   margin-bottom: 0.4em;

@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import GameTitle from '../components/GameTitle';
 import ChatRoom from '../components/ChatRoom';
 import GameBoard from '../components/GameBoard';
 import PlayInstructions from '../components/PlayInstructions';
 import YourGameBoard from './YourGameBoard';
 import MessageYourTurn from './MessageYourTurn';
 import checkShips from '../helpFunctions/checkShips';
+import '../css/gameTitle.css';
 
 let PlayGame = (props) => {
   let test = checkShips(props.ships);
@@ -18,18 +18,22 @@ let PlayGame = (props) => {
   }
   return (
     <div className='App'>
-      <GameTitle />
-        <div className='left-side'>
-          <PlayInstructions />
-          <YourGameBoard />
-        </div>
-        <div className="middle-side">
-          <GameBoard />
-          <MessageYourTurn />
-        </div>
-        {/* <div className='right-side'>
-          <ChatRoom />
-        </div> */}
+      <div className='titleBox'>
+        <h2 className='title'>Battlefield Game</h2>
+        <p>Use the instructions to play the game!</p>
+      </div>
+      <div className='left-side'>
+        <PlayInstructions />
+        <YourGameBoard />
+      </div>
+      <div className="middle-side">
+        <GameBoard />
+
+      </div>
+      <div className='right-side'>
+        <MessageYourTurn />
+        {/* <ChatRoom /> */}
+      </div>
     </div>
   );
 };

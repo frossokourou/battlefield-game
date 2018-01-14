@@ -2,9 +2,9 @@
   display: inline-block;
   border: 1.45px solid #999;
   margin: 2px -1px;
-  font-size: 1em;
-  height: 3em;
-  width: 10%;
+  /*font-size: 1em;*/
+  height: 3vw;
+  width: 3vw;
 }
 .colorShip {
   background-color: #c1b1c9;
@@ -25,9 +25,13 @@
 }
 .makeVertical {
   text-align: center;
-  width: 35%;
+  width: 55%;
   float: right;
   color: blue;
+  margin-top: 6vw;
+}
+.toggleButton {
+  margin-right: -10vw;
 }
 button {
   margin-top: 0.5em;
@@ -35,4 +39,23 @@ button {
 }
 p {
   margin: 0;
+}
+@media screen and (max-width: 600px) {
+  button {
+    margin-top: 0.5em;
+    padding: 0.5em;
+    font-size: 3vw;
+  }
+  p {
+    margin: 0;
+    font-size: 3vw;
+  }
+  .colorShipSelected {
+    background-color: #876f90;
+    border-color: #291b2c;
+  }
+  .colorShipPlaced {
+    background-color: #ebe1ef;
+    border-color: #b0b0b0;
+  }
 }

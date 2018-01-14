@@ -4,7 +4,7 @@ const PlayInstructions = () => {
   return (
     <div>
       <h3>Instructions</h3>
-      <ol className='instructions'>
+      <ol className='instructions instructions-size'>
         <li>Click on the board to throw a torpedo.</li>
         <li>If you hit a ship, it turns red.</li>
         <li>Guess the position of your opponent's ships.</li>

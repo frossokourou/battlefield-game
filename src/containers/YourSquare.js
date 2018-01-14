@@ -16,7 +16,6 @@ let YourSquare = (props) => {
   return (
     <div id={`${props.x}-${props.y}`}
       className={styleForShip}>
-      <span className='textInSquare'></span>
     </div>
   );
 };
